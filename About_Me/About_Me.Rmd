@@ -2,7 +2,7 @@
 output: 
 html_document:
 code_folding: hide
-pagetitle: Alex Raab Home
+pagetitle: About Me
 ---
 <style type="text/css">
 .main-container {
@@ -25,7 +25,7 @@ div.blue { background-color:#63a898; border-radius: 0px; padding: 20px;}
 <div class = "blue">
 
 
-## [HOME](http://MurderousPolyhedron.github.io/) | [ABOUT ME](http://MurderousPolyhedron.github.io/About_me/) | [CV](http://MurderousPolyhedron.github.io/CV/) | [PROGRAMMING](http://MurderousPolyhedron.github.io/Programming/) | [RESEARCH](http://MurderousPolyhedron.github.io/Research/) 
+## [HOME](http://MurderousPolyhedron.github.io/) | [ABOUT ME](http://MurderousPolyhedron.github.io/About_Me/) | [CV](http://MurderousPolyhedron.github.io/CV/) | [PROGRAMMING](http://MurderousPolyhedron.github.io/Programming/) | [RESEARCH](http://MurderousPolyhedron.github.io/Research/) 
 
 <div style= "float:right;position: relative;top:20px">
 ```{r, out.width = "250px",echo=FALSE}
