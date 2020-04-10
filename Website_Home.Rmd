@@ -1,0 +1,46 @@
+---
+output: 
+html_document:
+code_folding: hide
+pagetitle: Alex Raab Home
+---
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+<style>
+div.blue { background-color:#63a898; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+
+<style>
+div.blue { background-color:#63a898; border-radius: 0px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+## [HOME](http://MurderousPolyhedron.github.io/) | [ABOUT ME](http://MurderousPolyhedron.github.io/About_me/) | [CV](http://MurderousPolyhedron.github.io/CV/) | [PROGRAMMING](http://MurderousPolyhedron.github.io/Programming/) | [RESEARCH](http://MurderousPolyhedron.github.io/Research/) 
+
+# **ALEXANDER RAAB**
+
+
+<br>
+
+## **Contact Info:**
+
+### ALEXANDER RAAB<br>
+### 801-472-7717<br>
+### 10651040@my.uvu.edu<br>
+### alexraab1@gmail.com
+<br><br><br><br><br><br><br><br><br>
+
+</div>
+
+
+
