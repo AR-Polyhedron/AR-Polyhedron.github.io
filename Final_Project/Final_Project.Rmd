@@ -1,0 +1,142 @@
+---
+title: "Final_Project"
+output: html_document
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+<style>
+div.blue { background-color:#63a898; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+
+<style>
+div.blue { background-color:#63a898; border-radius: 0px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+## [HOME](http://MurderousPolyhedron.github.io/) | [ABOUT ME](http://MurderousPolyhedron.github.io/About_Me/) | [CV](http://MurderousPolyhedron.github.io/CV/) | [PROGRAMMING](http://MurderousPolyhedron.github.io/Programming/) | [RESEARCH](http://MurderousPolyhedron.github.io/Research/) | [Exam 3](http://MurderousPolyhedron.github.io/Exam_3/)
+
+### Before we start off on this here is the initial code of tidying some of the data. Now you may be asking why isn't this just in the code? Well the initial data was 286.07mb big, even when compressing it into a zip file it was still 199mb large. So obviously these files are much to large to put on github without paying their premium service. As a college student I can't justify that cost. So I will be providing the initial code to demonstrate what I did to tidy the data into a much more manageable size along with a link to download the original dataset. The raw data can be found here https://drive.google.com/open?id=1MbG2a-vQtTclHgn8-PCwIrx3CB7xzb0_ , and here is the code.
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(modelr)
+library(broom)
+library(dplyr)
+library(fitdistrplus)
+library(tidyr)
+library(tidyverse)
+library("readxl")
+library(ggplot2)
+```
+
+```{r}
+class(df1$Rain.Start.Date)
+df1$Rain.Start.Date <- as.Date(df1$Rain.Start.Date, format = "%m/%d/%Y")
+class(df1$Rain.Start.Date)
+```
+
+```{r comment='',echo=FALSE}
+cat(readLines('Data_Cleaning.txt'), sep = '\n')
+```
+
+```{r, echo=FALSE}
+df1 <- read.csv("UL_BiologicalData_cleaned.csv")
+df2 <- read_excel("UL2017Data.xlsx")
+```
+
+```{r, echo=FALSE}
+df1 <- df1 %>% 
+  rename(
+    MLID = MonitoringLocationIdentifier,
+    Rain.Longitude = ActivityLocation.LongitudeMeasure,
+    Rain.Latitude = ActivityLocation.LatitudeMeasure,
+    Rain.Start.Date = ActivityStartDate,
+    Rain.End.Date = ActivityEndDate,
+    Rain.Start.Time = ActivityStartTime.Time,
+    Rain.End.Time = ActivityEndTime.Time,
+    Rain.Depth.Feet = ActivityDepthHeightMeasure.MeasureValue
+    )
+```
+
+```{r}
+MLID.tag.removed <- str_remove(df1$MLID,"USGS-") 
+MLID.tag.removed <- str_remove(MLID.tag.removed,"UTAHDWQ_WQX-")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"UTAHGS-")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NALMS-")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_CCH")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_MCD")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_HCL")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_COSL")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_CCS")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_MCL")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_HL")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_HCD")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD-TICA_BYU_CCD")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD_WQX-TICA_3P_HCL")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD_WQX-TICA_3P_MCVA")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD_WQX-TICA_TFD_AFRWS")
+MLID.tag.removed <- str_remove(MLID.tag.removed,"NPSWRD_WQX-TICA_3P_MCP")
+unique(MLID.tag.removed)
+df1$MLID <- MLID.tag.removed
+unique(df1$MLID)
+```
+
+```{r}
+df2$`E. coli MPN/100ml` <- as.numeric(df2$`E. coli MPN/100ml`)
+df3 <- merge(df1,df2,by=c("MLID"))
+summary(df3$`E. coli MPN/100ml`)
+plot(df3$`E. coli MPN/100ml`)
+summary(df3$`E. coli MPN/100ml`)
+df2$`E. coli MPN/100ml`
+df3$`E. coli MPN/100ml`
+class(df2$`E. coli MPN/100ml`)
+class(df2$`E. coli MPN/100ml`)
+```
+
+```{r}
+ggplot(df3,aes(x=Rain.Depth.Feet, y=`E. coli MPN/100ml`)) +
+  geom_point() + coord_cartesian(xlim = c(0, 4), ylim = c(0, 5))
+
+ggplot(df3,aes(x=Rain.Depth.Feet, y=`E. coli MPN/100ml`)) +
+  geom_count() + coord_cartesian(xlim = c(0, 4), ylim = c(0, 5))
+
+ggplot(df3,aes(y=`E. coli MPN/100ml`, x=Rain.Start.Date)) + geom_point()
+
+ggplot(df3,aes(y=`E. coli MPN/100ml`, x=Date)) + geom_point()
+
+ggplot(df3, aes(`E. coli MPN/100ml`)) + coord_cartesian(xlim = c(0, 4), ylim = c(0, 5)) + geom_density(aes(fill=factor(MLID)), alpha=0.8)
+
+ggplot(df3,aes(y=`E. coli MPN/100ml`, x=Date, color=Rain.Depth.Feet)) + geom_count()
+```
+
+```{r}
+brks <- economics_y$date[seq(1, length(economics_y$date), 12)]
+lbls <- lubridate::year(brks)
+
+# plot
+ggplot(economics_y, aes(x=date)) + 
+  geom_line(aes(y=returns_perc)) + 
+  labs(title="Yearly Time Series", 
+       subtitle="Returns Percentage from Economics Dataset", 
+       caption="Source: Economics", 
+       y="Returns %") +  # title and caption
+  scale_x_date(labels = lbls, 
+               breaks = brks) +  # change to monthly ticks and labels
+  theme(axis.text.x = element_text(angle = 90, vjust=0.5),  # rotate x axis text
+        panel.grid.minor = element_blank())  # turn off minor grid
+```
